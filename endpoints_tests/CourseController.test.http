@@ -1,0 +1,50 @@
+### GET All Courses
+GET http://localhost:8888/courses
+Accept: application/json
+
+### GET All Courses (Paginated)
+GET http://localhost:8888/courses?page=3&size=5&sortBy=id&sortDir=asc
+Accept: application/json
+
+### GET Course by ID (ID=1)
+GET http://localhost:8888/courses/1
+Accept: application/json
+
+### CREATE Course
+POST http://localhost:8888/courses
+Content-Type: application/json
+
+{
+  "trainerId": 1,
+  "categoryId": 1,
+  "title": "New Spring Boot Course",
+  "description": "Learn advanced topics",
+  "duration": 90,
+  "level": "INTERMEDIATE"
+}
+
+### UPDATE Course (ID=1)
+PUT http://localhost:8888/courses/1
+Content-Type: application/json
+
+{
+  "title": "Updated Title",
+  "description": "New description",
+  "duration": 120,
+  "level": "ADVANCED"
+}
+
+### DELETE Course (ID=3)
+DELETE http://localhost:8888/courses/3
+
+### GET Courses by Trainer (Trainer ID=1)
+GET http://localhost:8888/courses?trainerId=1&sortBy=title&sortDir=desc
+Accept: application/json
+
+### GET Courses by Category (Category ID=2)
+GET http://localhost:8888/courses?categoryId=2
+Accept: application/json
+
+### SEARCH Courses (Keyword="Spring")
+GET http://localhost:8888/courses?search=Spring
+Accept: application/json

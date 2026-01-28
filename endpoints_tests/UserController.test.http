@@ -1,0 +1,32 @@
+### GET All Users
+GET http://localhost:8888/users
+Accept: application/json
+
+### GET User by ID (ID=1)
+GET http://localhost:8888/users/1
+Accept: application/json
+
+### CREATE User (Trainer)
+POST http://localhost:8888/users
+Content-Type: application/json
+
+{
+  "role": "TRAINER",
+  "firstName": "New",
+  "lastName": "Trainer",
+  "email": "new.trainer@example.com"
+}
+
+### CREATE User (Trainee) - Duplicate Email (Expected 400)
+POST http://localhost:8888/users
+Content-Type: application/json
+
+{
+  "role": "TRAINEE",
+  "firstName": "Duplicate",
+  "lastName": "Email",
+  "email": "sarah.williams@example.com"  // ← Already exists in data.sql
+}
+
+### DELETE User (ID=5)
+DELETE http://localhost:8888/users/5

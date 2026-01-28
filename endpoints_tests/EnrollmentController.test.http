@@ -1,0 +1,23 @@
+### CREATE Enrollment (Trainee 3 → Course 1)
+POST http://localhost:8888/enrollments
+Content-Type: application/json
+
+{
+  "traineeId": 3,
+  "courseId": 1
+}
+
+### GET Enrollments by Trainee (Trainee ID=3)
+GET http://localhost:8888/enrollments/trainee/3
+Accept: application/json
+
+### GET Enrollments by Course (Course ID=1)
+GET http://localhost:8888/enrollments/course/1
+Accept: application/json
+
+### MARK Enrollment as Completed (Enrollment ID=1)
+PATCH http://localhost:8888/enrollments/1/complete
+Accept: application/json
+
+### DELETE Enrollment (ID=1)
+DELETE http://localhost:8888/enrollments/1

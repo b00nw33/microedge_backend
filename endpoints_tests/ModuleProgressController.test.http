@@ -1,0 +1,15 @@
+### GET Progress for Trainee (Trainee ID=1)
+GET http://localhost:8888/progress/trainee/1
+Accept: application/json
+
+### GET Progress for Trainee in Specific Course (Trainee ID=1, Course ID=1)
+GET http://localhost:8888/progress/trainee/1/course/1
+Accept: application/json
+
+### MARK Module as Completed (Trainee ID=1, Module ID=1)
+POST http://localhost:8888/progress/trainee/1/complete
+Content-Type: application/json
+
+{
+  "moduleId": 1
+}

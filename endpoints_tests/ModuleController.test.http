@@ -1,0 +1,30 @@
+### GET Modules for Course (Course ID=1)
+GET http://localhost:8888/courses/1/modules
+Accept: application/json
+
+### CREATE Module for Course (Course ID=1)
+POST http://localhost:8888/courses/1/modules
+Content-Type: application/json
+
+{
+  "title": "New Module",
+  "contentText": "This is the content",
+  "videoUrl": "https://example.com/new-module.mp4"
+}
+
+### GET Module by ID (Module ID=1)
+GET http://localhost:8888/courses/1/modules/1
+Accept: application/json
+
+### UPDATE Module (ID=1)
+PUT http://localhost:8888/courses/1/modules/1
+Content-Type: application/json
+
+{
+  "title": "Updated Module Title",
+  "contentText": "Updated content",
+  "videoUrl": "https://example.com/updated-module.mp4"
+}
+
+### DELETE Module (ID=1)
+DELETE http://localhost:8888/courses/1/modules/1

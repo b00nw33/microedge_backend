@@ -1,0 +1,18 @@
+### GET All Categories
+GET http://localhost:8888/categories
+Accept: application/json
+
+### GET Category by ID (ID=1)
+GET http://localhost:8888/categories/1
+Accept: application/json
+
+### CREATE Category
+POST http://localhost:8888/categories
+Content-Type: application/json
+
+{
+  "name": "Artificial Intelligence"
+}
+
+### DELETE Category (ID=6)
+DELETE http://localhost:8888/categories/6
