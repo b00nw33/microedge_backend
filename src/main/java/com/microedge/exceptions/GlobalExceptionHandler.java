@@ -24,18 +24,18 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ValidationErrorResponse> handleValidationExceptions(
             MethodArgumentNotValidException ex, WebRequest request) {
-        
+
         List<ValidationErrorResponse.FieldError> fieldErrors = new ArrayList<>();
-        ex.getBindingResult().getFieldErrors().forEach(error -> 
-            fieldErrors.add(new ValidationErrorResponse.FieldError(
-                error.getField(), 
-                error.getDefaultMessage()
-            ))
+        ex.getBindingResult().getFieldErrors().forEach(error ->
+                fieldErrors.add(new ValidationErrorResponse.FieldError(
+                        error.getField(),
+                        error.getDefaultMessage()
+                ))
         );
 
         ValidationErrorResponse errorResponse = new ValidationErrorResponse(
-            "Validation failed", 
-            fieldErrors
+                "Validation failed",
+                fieldErrors
         );
         return ResponseEntity.badRequest().body(errorResponse);
     }
@@ -44,7 +44,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(ConstraintViolationException.class)
     public ResponseEntity<ValidationErrorResponse> handleConstraintViolation(
             ConstraintViolationException ex, WebRequest request) {
-        
+
         List<ValidationErrorResponse.FieldError> fieldErrors = new ArrayList<>();
         for (ConstraintViolation<?> violation : ex.getConstraintViolations()) {
             String field = violation.getPropertyPath().toString();
@@ -52,8 +52,8 @@ public class GlobalExceptionHandler {
         }
 
         ValidationErrorResponse errorResponse = new ValidationErrorResponse(
-            "Validation failed", 
-            fieldErrors
+                "Validation failed",
+                fieldErrors
         );
         return ResponseEntity.badRequest().body(errorResponse);
     }
@@ -63,9 +63,9 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ApiError> handleResourceNotFound(
             ResourceNotFoundException ex, WebRequest request) {
         ApiError error = new ApiError(
-            HttpStatus.NOT_FOUND,
-            ex.getMessage(),
-            request.getDescription(false)
+                HttpStatus.NOT_FOUND,
+                ex.getMessage(),
+                request.getDescription(false)
         );
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
     }
@@ -75,9 +75,9 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ApiError> handleGenericException(
             Exception ex, WebRequest request) {
         ApiError error = new ApiError(
-            HttpStatus.INTERNAL_SERVER_ERROR,
-            "An unexpected error occurred",
-            request.getDescription(false)
+                HttpStatus.INTERNAL_SERVER_ERROR,
+                "An unexpected error occurred",
+                request.getDescription(false)
         );
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(error);
     }

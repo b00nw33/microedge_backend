@@ -1,55 +1,49 @@
-// src/main/java/com/microedge/controllers/UserController.java
 package com.microedge.controllers;
 
-import com.microedge.dto.UserDto;
 import com.microedge.exceptions.EmailAlreadyExistsException;
 import com.microedge.exceptions.ResourceNotFoundException;
-import com.microedge.services.UserService;
+import com.microedge.models.User;
+import com.microedge.services.AuthService;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.annotation.Nullable;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.util.List;
+import java.io.IOException;
 
 @RestController
-@RequestMapping("/users")
+@RequestMapping("/api/v1")
+@CrossOrigin("*")
 public class UserController {
 
     @Autowired
-    private UserService userService;
+    private AuthService authService;
 
-    @GetMapping
-    public ResponseEntity<List<UserDto>> getAllUsers() {
-        return ResponseEntity.ok(userService.findAll());
+    @PostMapping("/public/signup")  /** public endpoint for signups */
+    public ResponseEntity<Object> signup(@Valid @RequestBody User user) throws EmailAlreadyExistsException {
+        return new ResponseEntity<>(authService.signUp(user), HttpStatus.CREATED);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<UserDto> getUserById(@PathVariable Integer id) {
-        try {
-            return ResponseEntity.ok(userService.findById(id));
-        } catch (ResourceNotFoundException e) {
-            return ResponseEntity.notFound().build();
-        }
+    @PostMapping("/public/signin") /** public endpoint for signing in */
+    public ResponseEntity<Object> signin(@RequestBody User user) {
+        return new ResponseEntity<>(authService.signIn(user), HttpStatus.OK);
     }
 
-    @PostMapping
-    public ResponseEntity<?> createUser(@RequestBody UserDto userDto) {
-        try {
-            UserDto saved = userService.save(userDto);
-            return ResponseEntity.status(HttpStatus.CREATED).body(saved);
-        } catch (EmailAlreadyExistsException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
+    @PutMapping("/user/update")     /** user-authenticated endpoint for updating user profile */
+    public ResponseEntity<Object> update(
+            @RequestParam("data") String data, // "{'userName': 'JohnDoe', 'email': "jd@gmail.com'}"
+            @Nullable @RequestParam(value = "image", required = false) MultipartFile image
+            ) throws IOException, ResourceNotFoundException {
+
+        // Convert "data" stored as a string into User object
+        ObjectMapper objectMapper = new ObjectMapper();
+        User user = objectMapper.readValue(data, User.class);
+
+        return new ResponseEntity<>(authService.update(user, image), HttpStatus.OK);
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteUser(@PathVariable Integer id) {
-        try {
-            userService.deleteById(id);
-            return ResponseEntity.noContent().build();
-        } catch (ResourceNotFoundException e) {
-            return ResponseEntity.notFound().build();
-        }
-    }
 }
