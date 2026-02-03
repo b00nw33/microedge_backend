@@ -15,3 +15,5 @@ SELECT
 FROM module m
 LEFT JOIN module_progress mp ON m.id = mp.module_id AND mp.trainee_id = 3
 WHERE m.course_id = 1;
+
+SELECT email, password FROM users WHERE email = 'test@example.com';

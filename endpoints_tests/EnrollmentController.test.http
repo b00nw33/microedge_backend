@@ -1,23 +1,57 @@
-### CREATE Enrollment (Trainee 3 → Course 1)
-POST http://localhost:8888/enrollments
-Content-Type: application/json
+@baseUrl = http://localhost:8888/api/v1
+@contentType = application/json
+
+### 1. SIGN IN (choose one — e.g., existing user)
+# @name login
+POST {{baseUrl}}/public/signin
+Content-Type: {{contentType}}
 
 {
-  "traineeId": 3,
-  "courseId": 1
+  "email": "alex.johnson@example.com",
+  "password": "123456"
 }
 
-### GET Enrollments by Trainee (Trainee ID=3)
-GET http://localhost:8888/enrollments/trainee/3
-Accept: application/json
+### 1. SIGN IN (to get token)
+# @name login
+POST {{baseUrl}}/public/signin
+Content-Type: {{contentType}}
 
-### GET Enrollments by Course (Course ID=1)
-GET http://localhost:8888/enrollments/course/1
-Accept: application/json
+{
+  "email": "raj.patel@example.com",
+  "password": "123456"
+}
 
-### MARK Enrollment as Completed (Enrollment ID=1)
-PATCH http://localhost:8888/enrollments/1/complete
-Accept: application/json
+### 2. EXTRACT TOKEN
+@authToken = {{login.response.body.token}}
+@traineeId = 17
+@courseId = 5
+@enrollmentId = 10
 
-### DELETE Enrollment (ID=1)
-DELETE http://localhost:8888/enrollments/1
+### 3. CREATE Enrollment (Trainee → Course)
+POST {{baseUrl}}/enrollments/create
+Authorization: Bearer {{authToken}}
+Content-Type: {{contentType}}
+
+{
+  "traineeId": {{traineeId}},
+  "courseId": {{courseId}}
+}
+
+### 4. GET Enrollments by Trainee
+GET {{baseUrl}}/enrollments/trainee/{{traineeId}}
+Authorization: Bearer {{authToken}}
+Accept: {{contentType}}
+
+### 5. GET Enrollments by Course (FOR TRAINER ONLY!)
+GET {{baseUrl}}/enrollments/course/{{courseId}}
+Authorization: Bearer {{authToken}}
+Accept: {{contentType}}
+
+### 6. MARK Enrollment as Completed
+PATCH {{baseUrl}}/enrollments/{{enrollmentId}}/complete
+Authorization: Bearer {{authToken}}
+Accept: {{contentType}}
+
+### 7. DELETE Enrollment
+DELETE {{baseUrl}}/enrollments/{{enrollmentId}}
+Authorization: Bearer {{authToken}}

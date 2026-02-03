@@ -12,7 +12,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/progress")
+@RequestMapping("/api/v1/progress")
+@CrossOrigin("*")
 public class ModuleProgressController {
 
     @Autowired

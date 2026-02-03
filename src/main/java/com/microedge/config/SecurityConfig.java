@@ -29,17 +29,34 @@ public class SecurityConfig {
     @Autowired
     private JwtAuthFilter jwtAuthFilter;
 
-    // specifies the security filters meant for authentication and authorization routes
+    // specifies the security filters meant for authentication and authorization
+    // routes
     // returns the built security configuration(s)
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
-
-        httpSecurity.csrf(AbstractHttpConfigurer::disable)
+        httpSecurity
+                .csrf(AbstractHttpConfigurer::disable)
+                // .csrf(csrf -> csrf.disable()) // Disable CSRF for REST APIs
                 .cors(Customizer.withDefaults())
-                .authorizeHttpRequests(request -> request.requestMatchers(API_ENDPOINT.concat("/public/**"), API_ENDPOINT.concat("/uploads/**")).permitAll()
-                        .requestMatchers(API_ENDPOINT.concat("/user/**")).hasAnyAuthority("USER")
-                        .requestMatchers(API_ENDPOINT.concat("/admin/**")).hasAnyAuthority("ADMIN")
-                        .requestMatchers(API_ENDPOINT.concat("/restricted/**")).hasAnyAuthority("USER", "ADMIN")
+                .authorizeHttpRequests(request -> request
+                        .requestMatchers(
+                                API_ENDPOINT + "/public/**",
+                                API_ENDPOINT + "/uploads/**")
+                        .permitAll()
+                        .requestMatchers(
+                                API_ENDPOINT + "/restricted/**",
+                                API_ENDPOINT + "/admin/**")
+                        .hasAnyAuthority("ADMIN")
+                        .requestMatchers(
+                            API_ENDPOINT + "/enrollments/course/**")
+                        .hasAnyAuthority("TRAINER")
+                        .requestMatchers(
+                                API_ENDPOINT + "/user/**",
+                                API_ENDPOINT + "/categories/**",
+                                API_ENDPOINT + "/enrollments/**",
+                                API_ENDPOINT + "/courses/**",
+                                API_ENDPOINT + "/progress/**")
+                        .hasAnyAuthority("TRAINEE", "TRAINER")
                         .anyRequest().authenticated())
                 .sessionManagement(manager -> manager.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider())
@@ -48,12 +65,14 @@ public class SecurityConfig {
         return httpSecurity.build();
     }
 
-
-    // authenticates user(s) using a data access object (DAO) to retrieve user details
-    // returns the user's information through a) UserDetailsService > a) UserRepository > c) connected to the DB
-    // @Bean is not needed as there's a custom UserDetailsService beans, you need to define your own Authenticationprovider
+    // authenticates user(s) using a data access object (DAO) to retrieve user
+    // details
+    // returns the user's information through a) UserDetailsService > a)
+    // UserRepository > c) connected to the DB
+    // @Bean is not needed as there's a custom UserDetailsService beans, you need to
+    // define your own Authenticationprovider
     // Ref: https://github.com/spring-projects/spring-security/issues/13652
-//    @Bean
+    // @Bean
     public DaoAuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
         daoAuthenticationProvider.setUserDetailsService(usersDetailsService);
@@ -61,7 +80,8 @@ public class SecurityConfig {
         return daoAuthenticationProvider;
     }
 
-    // returns a new instance of a BCryptPasswordEncoder to securely encode passwords
+    // returns a new instance of a BCryptPasswordEncoder to securely encode
+    // passwords
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
@@ -69,7 +89,8 @@ public class SecurityConfig {
 
     // returns the AuthenticationManager bean for handling user authentication.
     @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration)
+            throws Exception {
         return authenticationConfiguration.getAuthenticationManager();
     }
 

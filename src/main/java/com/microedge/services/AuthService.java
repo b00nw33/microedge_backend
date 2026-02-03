@@ -6,7 +6,6 @@ import com.microedge.exceptions.ResourceNotFoundException;
 import com.microedge.models.User;
 import com.microedge.repositories.UserRepository;
 import com.microedge.util.JwtUtils;
-import lombok.Builder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -19,7 +18,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 
@@ -42,26 +40,42 @@ public class AuthService {
             throw new EmailAlreadyExistsException("Please use another email.");
         }
 
+        // User _user = User.builder()
+        // .email(user.getEmail())
+        // .password(passwordEncoder.encode((user.getPassword())))
+        // .build();
+
+        // System.out.println(passwordEncoder.encode(user.getPassword()));
+
         User _user = User.builder()
                 .email(user.getEmail())
-                .password(passwordEncoder.encode((user.getPassword())))
+                .password(passwordEncoder.encode(user.getPassword()))
+                .firstName(user.getFirstName()) // ← ADD THIS
+                .lastName(user.getLastName()) // ← ADD THIS
+                .role(User.Role.TRAINEE) // ← Enforce default role
+                // .role(User.Role.TRAINER) // ← Enforce default role
                 .build();
 
-       return userRepository.save(_user);
+        return userRepository.save(_user);
     }
 
     @Transactional
-    public UserDto signIn(User user) throws ResourceAccessException{
+    public UserDto signIn(User user) throws ResourceAccessException {
 
-        Authentication authenticationRequest = UsernamePasswordAuthenticationToken.unauthenticated(user.getEmail(), user.getPassword());
+        Authentication authenticationRequest = UsernamePasswordAuthenticationToken.unauthenticated(user.getEmail(),
+                user.getPassword());
         Authentication authenticationResponse = authenticationManager.authenticate(authenticationRequest);
 
         /**
-         * SecurityContextHolder.getContext().setAuthentication(authenticationResponse) - logs the authenticated user
-         * authenticationResponse.getPrincipal() - returns an Object (class: UserDetails)
-         * Cast returned UserDetails to User entity (userDetails doesn't have access modifier for "userName")
+         * SecurityContextHolder.getContext().setAuthentication(authenticationResponse)
+         * - logs the authenticated user
+         * authenticationResponse.getPrincipal() - returns an Object (class:
+         * UserDetails)
+         * Cast returned UserDetails to User entity (userDetails doesn't have access
+         * modifier for "userName")
          * Within userDetails "userName" ≠ attribute "username")
-         * The typecasting allows the extraction of: userName (≠ username), email and role
+         * The typecasting allows the extraction of: userName (≠ username), email and
+         * role
          */
 
         SecurityContextHolder.getContext().setAuthentication(authenticationResponse);
@@ -72,20 +86,20 @@ public class AuthService {
         Long expirationTime = jwtUtils.extractExpirationTime(token);
 
         UserDto userDto = UserDto.builder()
-                .firstName(_user.getFirstName())    // Return athenticated user userName
-                .lastName(_user.getLastName())      // Return athenticated user userName
-                .email(_user.getUsername())         // Return athenticated user email, akin to UserDetails.getUsername());
-                .token(token)                       // Return prepared token
-                .refreshToken(refreshToken)         // Return prepared refresh token
-                .expirationTime(expirationTime)     // Return prepared expiry
-                .message("success")                 // Return "success" as a message
-                .role(_user.getRole())              // Return authenticated user's role
+                .firstName(_user.getFirstName()) // Return athenticated user userName
+                .lastName(_user.getLastName()) // Return athenticated user userName
+                .email(_user.getUsername()) // Return athenticated user email, akin to UserDetails.getUsername());
+                .token(token) // Return prepared token
+                .refreshToken(refreshToken) // Return prepared refresh token
+                .expirationTime(expirationTime) // Return prepared expiry
+                .message("success") // Return "success" as a message
+                .role(_user.getRole()) // Return authenticated user's role
                 .build();
 
         return userDto;
     }
 
-    public UserDto update(User user, MultipartFile image) throws IOException, ResourceNotFoundException  {
+    public UserDto update(User user, MultipartFile image) throws IOException, ResourceNotFoundException {
 
         // Obtain the user's identity from Spring Security
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -112,14 +126,22 @@ public class AuthService {
 
         userRepository.save(existingUser);
 
+        String token = jwtUtils.generateToken(existingUser);
+        String refreshToken = jwtUtils.generateRefreshToken(new HashMap<>(), existingUser);
+        Long expirationTime = jwtUtils.extractExpirationTime(token);
+
         // package the data to return
         UserDto userDto = UserDto.builder()
-                .firstName(existingUser.getFirstName())    // Return athenticated user userName
-                .lastName(existingUser.getLastName())      // Return athenticated user userName
+                .id(existingUser.getId())
+                .role(existingUser.getRole())
+                .firstName(existingUser.getFirstName()) // Return athenticated user userName
+                .lastName(existingUser.getLastName()) // Return athenticated user userName
                 .email(existingUser.getEmail())
+                .token(token) // Return prepared token
+                .refreshToken(refreshToken) // Return prepared refresh token
+                .expirationTime(expirationTime) // Return prepared expiry
                 .message("update success")
                 .build();
-                // TODO - also return a new token if email has changed
 
         // The following are not returned as updates
         // - role

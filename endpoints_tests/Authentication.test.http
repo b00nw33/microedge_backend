@@ -1,0 +1,52 @@
+@baseUrl = http://localhost:8888/api/v1
+@contentType = application/json
+
+### 1. SIGN IN (choose one — e.g., existing user)
+# @name login
+POST {{baseUrl}}/public/signin
+Content-Type: {{contentType}}
+
+{
+  "email": "alex.johnson@example.com",
+  "password": "123456"
+}
+
+### 1. SIGN IN (choose one — e.g., existing user)
+# @name login
+POST {{baseUrl}}/public/signin
+Content-Type: {{contentType}}
+
+{
+  "email": "trainee1@example.com",
+  "password": "654321"
+}
+
+### 2. EXTRACT TOKEN & DEFINE VARIABLES
+@authToken = {{login.response.body.token}}
+
+### 3. CREATE new user (no auth needed)
+POST {{baseUrl}}/public/signup
+Content-Type: {{contentType}}
+
+{
+  "email": "trainee1@example.com",
+  "password": "654321",
+  "firstName": "Trainee",
+  "lastName": "User 1",
+  "role": "TRAINER"
+}
+
+### 4. UPDATE existing user details (uses extracted token)
+PUT {{baseUrl}}/user/update
+Authorization: Bearer {{authToken}}
+Content-Type: multipart/form-data; boundary=----aaa
+
+------aaa
+Content-Disposition: form-data; name="data"
+
+{
+  "firstName": "Trainee Updated",
+  "lastName": "User 1 Updated",
+  "email": "trainee1_updated@example.com"
+}
+------aaa--

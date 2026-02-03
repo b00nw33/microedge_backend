@@ -1,30 +1,53 @@
-### GET Modules for Course (Course ID=1)
-GET http://localhost:8888/courses/1/modules
-Accept: application/json
+@baseUrl = http://localhost:8888/api/v1
+@contentType = application/json
 
-### CREATE Module for Course (Course ID=1)
-POST http://localhost:8888/courses/1/modules
-Content-Type: application/json
-
-{
-  "title": "New Module",
-  "contentText": "This is the content",
-  "videoUrl": "https://example.com/new-module.mp4"
-}
-
-### GET Module by ID (Module ID=1)
-GET http://localhost:8888/courses/1/modules/1
-Accept: application/json
-
-### UPDATE Module (ID=1)
-PUT http://localhost:8888/courses/1/modules/1
-Content-Type: application/json
+### 1. SIGN IN (to obtain token)
+# @name login
+POST {{baseUrl}}/public/signin
+Content-Type: {{contentType}}
 
 {
-  "title": "Updated Module Title",
-  "contentText": "Updated content",
-  "videoUrl": "https://example.com/updated-module.mp4"
+  "email": "alex.johnson@example.com",
+  "password": "123456"
 }
 
-### DELETE Module (ID=1)
-DELETE http://localhost:8888/courses/1/modules/1
+### 2. DEFINE VARIABLES FROM LOGIN RESPONSE
+@authToken = {{login.response.body.token}}
+@courseId = 1
+@moduleId = 1
+
+### 3. GET Modules for Course
+GET {{baseUrl}}/courses/{{courseId}}/modules
+Accept: {{contentType}}
+Authorization: Bearer {{authToken}}
+
+### 4. CREATE Module for Course
+POST {{baseUrl}}/courses/{{courseId}}/modules
+Content-Type: {{contentType}}
+Authorization: Bearer {{authToken}}
+
+{
+  "title": "Auto-Auth Module",
+  "contentText": "Created using extracted token",
+  "videoUrl": "https://example.com/auto-module.mp4"
+}
+
+### 5. GET Module by ID
+GET {{baseUrl}}/courses/{{courseId}}/modules/{{moduleId}}
+Accept: {{contentType}}
+Authorization: Bearer {{authToken}}
+
+### 6. UPDATE Module
+PUT {{baseUrl}}/courses/{{courseId}}/modules/{{moduleId}}
+Content-Type: {{contentType}}
+Authorization: Bearer {{authToken}}
+
+{
+  "title": "Updated via Auto Token",
+  "contentText": "Token was auto-extracted from login!",
+  "videoUrl": "https://example.com/updated-auto.mp4"
+}
+
+### 7. DELETE Module
+DELETE {{baseUrl}}/courses/{{courseId}}/modules/{{moduleId}}
+Authorization: Bearer {{authToken}}

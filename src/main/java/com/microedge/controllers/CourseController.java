@@ -22,7 +22,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/courses")
+@RequestMapping("/api/v1/courses")
+@CrossOrigin("*")
 public class CourseController {
 
     private static final List<String> ALLOWED_SORT_FIELDS = Arrays.asList("id", "title", "createdAt", "updatedAt",
@@ -111,9 +112,6 @@ public class CourseController {
         }
     }
 
-    // In CourseController.java
-
-    @GetMapping("/by-trainer/{trainerId}")
     public ResponseEntity<Page<CourseDto>> getCoursesByTrainer(
             @PathVariable Integer trainerId,
             @RequestParam(defaultValue = "0") int page,

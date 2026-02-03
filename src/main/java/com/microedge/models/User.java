@@ -7,12 +7,12 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+@Data
 @Entity
 @Table(name = "users", schema = "microedge")
 @NoArgsConstructor
@@ -119,7 +119,7 @@ public class User implements UserDetails {
         this.lastName = lastName;
         this.email = email;
         this.password = password;
-        this.role = (role == null) ? role.TRAINEE : role;
+        this.role = (role == null) ? Role.TRAINEE : role;
     }
 
 }

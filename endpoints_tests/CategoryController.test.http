@@ -1,13 +1,30 @@
+@baseUrl = http://localhost:8888/api/v1
+
+### 1. SIGN IN (to obtain token)
+# @name login
+POST {{baseUrl}}/public/signin
+Content-Type: application/json
+
+{
+  "email": "alex.johnson@example.com",
+  "password": "123456"
+}
+
+@authToken = {{login.response.body.token}}
+
 ### GET All Categories
-GET http://localhost:8888/categories
+GET {{baseUrl}}/categories
+Authorization: Bearer {{authToken}}
 Accept: application/json
 
 ### GET Category by ID (ID=1)
-GET http://localhost:8888/categories/1
+GET {{baseUrl}}/categories/1
+Authorization: Bearer {{authToken}}
 Accept: application/json
 
 ### CREATE Category
-POST http://localhost:8888/categories
+POST {{baseUrl}}/categories
+Authorization: Bearer {{authToken}}
 Content-Type: application/json
 
 {
@@ -15,4 +32,5 @@ Content-Type: application/json
 }
 
 ### DELETE Category (ID=6)
-DELETE http://localhost:8888/categories/6
+DELETE {{baseUrl}}/categories/6
+Authorization: Bearer {{authToken}}

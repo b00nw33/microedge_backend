@@ -1,14 +1,35 @@
-### GET All Users
-GET http://localhost:8888/users
-Accept: application/json
+@baseUrl = http://localhost:8888/api/v1
+@contentType = application/json
 
-### GET User by ID (ID=1)
-GET http://localhost:8888/users/1
-Accept: application/json
+### 1. SIGN IN (as admin or authorized user)
+# @name login
+POST {{baseUrl}}/public/signin
+Content-Type: {{contentType}}
 
-### CREATE User (Trainer)
-POST http://localhost:8888/users
-Content-Type: application/json
+{
+  "email": "alex.johnson@example.com",
+  "password": "123456"
+}
+
+### 2. EXTRACT TOKEN
+@authToken = {{login.response.body.token}}
+@userIdToDelete = 5
+
+### 3. GET All Users
+GET {{baseUrl}}/users
+Authorization: Bearer {{authToken}}
+Accept: {{contentType}}
+
+### 4. GET User by ID (ID=1)
+GET {{baseUrl}}/users/1
+Authorization: Bearer {{authToken}}
+Accept: {{contentType}}
+
+### 5. CREATE User (Trainer)
+# ⚠️ If this endpoint is PUBLIC (like signup), remove Authorization
+POST {{baseUrl}}/users
+Content-Type: {{contentType}}
+Authorization: Bearer {{authToken}}  // ← Remove if public
 
 {
   "role": "TRAINER",
@@ -17,16 +38,19 @@ Content-Type: application/json
   "email": "new.trainer@example.com"
 }
 
-### CREATE User (Trainee) - Duplicate Email (Expected 400)
-POST http://localhost:8888/users
-Content-Type: application/json
+### 6. CREATE User (Trainee) - Duplicate Email (Expected 400)
+# Same note: remove Authorization if public
+POST {{baseUrl}}/users
+Content-Type: {{contentType}}
+Authorization: Bearer {{authToken}}  // ← Remove if public
 
 {
   "role": "TRAINEE",
   "firstName": "Duplicate",
   "lastName": "Email",
-  "email": "sarah.williams@example.com"  // ← Already exists in data.sql
+  "email": "sarah.williams@example.com"
 }
 
-### DELETE User (ID=5)
-DELETE http://localhost:8888/users/5
+### 7. DELETE User (ID=5)
+DELETE {{baseUrl}}/users/{{userIdToDelete}}
+Authorization: Bearer {{authToken}}

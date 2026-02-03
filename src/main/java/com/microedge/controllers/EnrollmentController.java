@@ -13,13 +13,14 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/enrollments")
+@RequestMapping("/api/v1/enrollments")
+@CrossOrigin("*")
 public class EnrollmentController {
 
     @Autowired
     private EnrollmentService enrollmentService;
 
-    @PostMapping
+    @PostMapping("/create")
     public ResponseEntity<?> createEnrollment(@RequestBody CreateEnrollmentDto dto) {
         try {
             EnrollmentDto saved = enrollmentService.createEnrollment(dto);

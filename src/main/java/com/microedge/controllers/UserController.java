@@ -23,7 +23,13 @@ public class UserController {
     @Autowired
     private AuthService authService;
 
-    @PostMapping("/public/signup")  /** public endpoint for signups */
+    // @PostMapping("/public/signup")
+    // public ResponseEntity<Object> signup(@Valid @RequestBody User user) throws EmailAlreadyExistsException {
+    //     System.out.println("DESERIALIZED USER: " + user); // ← Add this
+    //     return new ResponseEntity<>(authService.signUp(user), HttpStatus.CREATED);
+    // }
+
+    @PostMapping("/public/signup") /** public endpoint for signups */
     public ResponseEntity<Object> signup(@Valid @RequestBody User user) throws EmailAlreadyExistsException {
         return new ResponseEntity<>(authService.signUp(user), HttpStatus.CREATED);
     }
@@ -33,11 +39,11 @@ public class UserController {
         return new ResponseEntity<>(authService.signIn(user), HttpStatus.OK);
     }
 
-    @PutMapping("/user/update")     /** user-authenticated endpoint for updating user profile */
+    @PutMapping("/user/update") /** user-authenticated endpoint for updating user profile */
     public ResponseEntity<Object> update(
             @RequestParam("data") String data, // "{'userName': 'JohnDoe', 'email': "jd@gmail.com'}"
-            @Nullable @RequestParam(value = "image", required = false) MultipartFile image
-            ) throws IOException, ResourceNotFoundException {
+            @Nullable @RequestParam(value = "image", required = false) MultipartFile image)
+            throws IOException, ResourceNotFoundException {
 
         // Convert "data" stored as a string into User object
         ObjectMapper objectMapper = new ObjectMapper();

@@ -11,6 +11,8 @@ import com.microedge.repositories.TraineeCourseRepository;
 import com.microedge.repositories.UserRepository;
 import com.microedge.repositories.CourseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -32,24 +34,50 @@ public class EnrollmentService {
     private CourseRepository courseRepository;
 
     public List<EnrollmentDto> findEnrollmentsByTrainee(Integer traineeId) {
-        validateUserExists(traineeId);
-        return enrollmentRepository.findByTraineeId(traineeId).stream()
+
+        // Obtain the user's identity from Spring Security
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentEmail = authentication.getName();
+
+        // Fetch the managed user
+        User existingUser = userRepository.findByEmail(currentEmail)
+                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
+
+        return enrollmentRepository.findByTraineeId(existingUser.getId()).stream()
                 .map(this::toDto)
                 .collect(Collectors.toList());
     }
 
     public List<EnrollmentDto> findEnrollmentsByCourse(Integer courseId) {
-        validateCourseExists(courseId);
+
+        // Obtain the user's identity from Spring Security
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentEmail = authentication.getName();
+
+        // Fetch the managed user
+        User existingUser = userRepository.findByEmail(currentEmail)
+                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
+
         return enrollmentRepository.findByCourseId(courseId).stream()
                 .map(this::toDto)
                 .collect(Collectors.toList());
     }
 
     public EnrollmentDto createEnrollment(CreateEnrollmentDto dto) {
+
+        // Obtain the user's identity from Spring Security
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentEmail = authentication.getName();
+
+        // Fetch the managed user
+        User existingUser = userRepository.findByEmail(currentEmail)
+                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
+
         // Validate trainee exists and is TRAINEE
-        User trainee = userRepository.findById(dto.getTraineeId())
-                .orElseThrow(() -> new ResourceNotFoundException("Trainee not found: " + dto.getTraineeId()));
-        if (trainee.getRole() != User.Role.TRAINEE) {
+        // User trainee = userRepository.findById(dto.getTraineeId())
+        // .orElseThrow(() -> new ResourceNotFoundException("Trainee not found: " +
+        // dto.getTraineeId()));
+        if (existingUser.getRole() != User.Role.TRAINEE) {
             throw new IllegalArgumentException("User is not a trainee");
         }
 
@@ -62,7 +90,7 @@ public class EnrollmentService {
         }
 
         TraineeCourse enrollment = new TraineeCourse();
-        enrollment.setTrainee(trainee);
+        enrollment.setTrainee(existingUser);
 
         // ✅ CORRECT WAY: Create course reference with ID only
         Course courseRef = new Course();
@@ -107,11 +135,11 @@ public class EnrollmentService {
         return dto;
     }
 
-    private void validateUserExists(Integer userId) {
-        if (!userRepository.existsById(userId)) {
-            throw new ResourceNotFoundException("User not found: " + userId);
-        }
-    }
+    // private void validateUserExists(Integer userId) {
+    // if (!userRepository.existsById(userId)) {
+    // throw new ResourceNotFoundException("User not found: " + userId);
+    // }
+    // }
 
     private void validateCourseExists(Integer courseId) {
         if (!courseRepository.existsById(courseId)) {

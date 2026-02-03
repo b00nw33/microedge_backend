@@ -40,6 +40,8 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         final String jwtToken;
         final String userEmail;
 
+        // System.out.println(authHeader);
+
         if (authHeader == null || authHeader.isBlank()) {
             filterChain.doFilter(request, response);
             return;
