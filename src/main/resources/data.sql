@@ -4,8 +4,8 @@ USE microedge;
 
 -- Categories
 INSERT INTO category (name) VALUES 
-  ('Web Development'),
-  ('Data Science'),
+  ('Construction'),
+  ('Healthcare'),
   ('Cloud Computing'),
   ('Mobile Development'),
   ('DevOps');
@@ -33,24 +33,24 @@ INSERT INTO users (role, first_name, last_name, email, password) VALUES
   ('TRAINEE', 'Mateo', 'Garcia', 'mateo.garcia@example.com', 'traineePass707');
 
 -- Courses (8 total)
-INSERT INTO course (trainer_id, category_id, title, description, duration, level) VALUES 
-  -- Web Dev
-  (1, 1, 'Spring Boot Fundamentals', 'Learn Spring Boot from scratch', 120, 'BEGINNER'),
-  (4, 1, 'Advanced React Patterns', 'Master hooks, context, and performance', 150, 'ADVANCED'),
-  
-  -- Data Science
-  (2, 2, 'Python for Data Analysis', 'Pandas, NumPy, and Matplotlib', 180, 'INTERMEDIATE'),
-  (2, 2, 'Machine Learning Basics', 'Intro to scikit-learn and model evaluation', 240, 'BEGINNER'),
-  
+INSERT INTO course (trainer_id, category_id, title, description, duration, level, image_url) VALUES
+  -- Construction
+  (1, 1, 'Construction Site Basics', 'This course introduces learners to the fundamentals of working on a construction site. It covers common site roles, tools, and basic terminology used across projects. Learners will understand essential safety rules, site access requirements, and expected workplace behavior. The course is designed for individuals who are new to construction environments.', 120, 'BEGINNER', 'uploads/construction_site_basics.jpg'),
+  (4, 1, 'Construction Workflow & Risk Awareness', 'This course explores how construction projects progress from planning through execution. Learners will gain insight into task sequencing, team coordination, and common on-site risks. The course emphasizes recognizing hazards early and communicating effectively to prevent delays or incidents. It is ideal for workers with hands-on site experience.', 150, 'ADVANCED', 'uploads/workflow_risk_awareness.jpg'),
+
+  -- Healthcare
+  (2, 2, 'Healthcare Environment Essentials', 'This course provides an overview of how healthcare facilities operate. Learners will be introduced to patient safety principles, hygiene practices, and professional conduct. The course explains basic roles, workflows, and communication within healthcare settings. It is suitable for new healthcare workers and support staff.', 180, 'BEGINNER', 'uploads/healthcare_essentials.jpg'),
+  (2, 2, 'Patient Care & Clinical Safety', 'This course builds on foundational knowledge to strengthen patient care and safety practices. Learners will explore infection control, safe patient handling, and clinical risk awareness. The course also emphasizes teamwork and clear communication in care environments. It is designed for staff involved in patient-facing or clinical support roles.', 240, 'INTERMEDIATE', 'uploads/patientcare_clinicalsafety.png'),
+
   -- Cloud
-  (3, 3, 'AWS Cloud Practitioner', 'Get certified in AWS fundamentals', 200, 'BEGINNER'),
-  (3, 3, 'Kubernetes for Developers', 'Deploy and scale containerized apps', 180, 'ADVANCED'),
-  
+  (3, 3, 'AWS Cloud Practitioner', 'Get certified in AWS fundamentals', 200, 'BEGINNER', 'uploads/comingsoon.png'),
+  (3, 3, 'Kubernetes for Developers', 'Deploy and scale containerized apps', 180, 'ADVANCED', 'uploads/comingsoon.png'),
+
   -- Mobile
-  (5, 4, 'Flutter & Firebase', 'Build cross-platform mobile apps', 220, 'INTERMEDIATE'),
-  
+  (5, 4, 'Flutter & Firebase', 'Build cross-platform mobile apps', 220, 'INTERMEDIATE', 'uploads/comingsoon.png'),
+
   -- DevOps
-  (6, 5, 'CI/CD with GitHub Actions', 'Automate your deployment pipeline', 90, 'INTERMEDIATE');
+  (6, 5, 'CI/CD with GitHub Actions', 'Automate your deployment pipeline', 90, 'INTERMEDIATE', 'uploads/comingsoon.png');
 
 -- Modules (with order_index and unique titles per course)
 INSERT INTO module (course_id, title, content_text, video_url, order_index) VALUES 

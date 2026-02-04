@@ -40,23 +40,27 @@ public class JwtUtils {
     }
 
     // takes in the user's details to generate the JWT token with an expiration duration of 24 hours
-    public String generateToken(UserDetails userDetails){
+    public String generateToken(String firstName, String lastName, UserDetails userDetails){
         return Jwts.builder()
                 .subject(userDetails.getUsername())
                 .issuedAt(new Date(System.currentTimeMillis()))
                 .expiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
+                .claim("firstName", firstName)
+                .claim("lastName", lastName)
                 .claim("roles", userDetails.getAuthorities())
                 .signWith(secretKey)
                 .compact();
     }
 
     // takes in the claims (aka payload, e.g. expirationTime) and the user's details to generate a refresh token
-    public String generateRefreshToken(HashMap<String, Object> claims, UserDetails userDetails){
+    public String generateRefreshToken(HashMap<String, Object> claims, String firstName, String lastName, UserDetails userDetails){
         return Jwts.builder()
                 .claims(claims)
                 .subject(userDetails.getUsername())
                 .issuedAt(new Date(System.currentTimeMillis()))
                 .expiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
+                .claim("firstName", firstName)
+                .claim("lastName", lastName)
                 .claim("roles", userDetails.getAuthorities())
                 .signWith(secretKey)
                 .compact();

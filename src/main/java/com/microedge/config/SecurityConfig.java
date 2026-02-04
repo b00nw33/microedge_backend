@@ -41,7 +41,8 @@ public class SecurityConfig {
                 .authorizeHttpRequests(request -> request
                         .requestMatchers(
                                 API_ENDPOINT + "/public/**",
-                                API_ENDPOINT + "/uploads/**")
+                                API_ENDPOINT + "/courses/**",
+                                "/uploads/**")
                         .permitAll()
                         .requestMatchers(
                                 API_ENDPOINT + "/restricted/**",

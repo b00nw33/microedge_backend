@@ -81,8 +81,8 @@ public class AuthService {
         SecurityContextHolder.getContext().setAuthentication(authenticationResponse);
         User _user = (User) authenticationResponse.getPrincipal();
 
-        String token = jwtUtils.generateToken(_user);
-        String refreshToken = jwtUtils.generateRefreshToken(new HashMap<>(), _user);
+        String token = jwtUtils.generateToken(_user.getFirstName(), _user.getLastName(), _user);
+        String refreshToken = jwtUtils.generateRefreshToken(new HashMap<>(), _user.getFirstName(), _user.getLastName(), _user);
         Long expirationTime = jwtUtils.extractExpirationTime(token);
 
         UserDto userDto = UserDto.builder()
@@ -126,8 +126,8 @@ public class AuthService {
 
         userRepository.save(existingUser);
 
-        String token = jwtUtils.generateToken(existingUser);
-        String refreshToken = jwtUtils.generateRefreshToken(new HashMap<>(), existingUser);
+        String token = jwtUtils.generateToken(existingUser.getFirstName(), existingUser.getLastName(), existingUser);
+        String refreshToken = jwtUtils.generateRefreshToken(new HashMap<>(), existingUser.getFirstName(), existingUser.getLastName(), existingUser);
         Long expirationTime = jwtUtils.extractExpirationTime(token);
 
         // package the data to return
