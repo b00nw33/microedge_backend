@@ -22,7 +22,6 @@ public class EnrollmentController {
 
     @PostMapping("/create/{id}")
     public ResponseEntity<?> createEnrollment(@PathVariable("id") Integer id) {
-        System.out.println(String.format("Id receive is %d", id));
         try {
             EnrollmentDto saved = enrollmentService.createEnrollment(id);
             return ResponseEntity.status(HttpStatus.CREATED).body(saved);
@@ -46,6 +45,15 @@ public class EnrollmentController {
     public ResponseEntity<List<EnrollmentDto>> getEnrollmentsByCourse(@PathVariable Integer courseId) {
         try {
             return ResponseEntity.ok(enrollmentService.findEnrollmentsByCourse(courseId));
+        } catch (ResourceNotFoundException e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @GetMapping("/{courseId}")
+    public ResponseEntity<Object> getEnrollmentByCourse(@PathVariable Integer courseId) {
+        try {
+            return ResponseEntity.ok(enrollmentService.findEnrollmentByCourse(courseId));
         } catch (ResourceNotFoundException e) {
             return ResponseEntity.notFound().build();
         }

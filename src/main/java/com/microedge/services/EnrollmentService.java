@@ -63,6 +63,20 @@ public class EnrollmentService {
                 .collect(Collectors.toList());
     }
 
+    public boolean findEnrollmentByCourse(Integer courseId) {
+
+        // Obtain the user's identity from Spring Security
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentEmail = authentication.getName();
+
+        // Fetch the managed user
+        User existingUser = userRepository.findByEmail(currentEmail)
+                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
+
+        return enrollmentRepository.existsByTraineeIdAndCourseId(existingUser.getId(), courseId);
+
+    }
+
     public EnrollmentDto createEnrollment(Integer id) {
 
         // Obtain the user's identity from Spring Security
