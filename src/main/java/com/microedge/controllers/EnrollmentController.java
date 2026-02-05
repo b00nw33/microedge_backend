@@ -20,10 +20,11 @@ public class EnrollmentController {
     @Autowired
     private EnrollmentService enrollmentService;
 
-    @PostMapping("/create")
-    public ResponseEntity<?> createEnrollment(@RequestBody CreateEnrollmentDto dto) {
+    @PostMapping("/create/{id}")
+    public ResponseEntity<?> createEnrollment(@PathVariable("id") Integer id) {
+        System.out.println(String.format("Id receive is %d", id));
         try {
-            EnrollmentDto saved = enrollmentService.createEnrollment(dto);
+            EnrollmentDto saved = enrollmentService.createEnrollment(id);
             return ResponseEntity.status(HttpStatus.CREATED).body(saved);
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(e.getMessage());

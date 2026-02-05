@@ -54,23 +54,23 @@ INSERT INTO course (trainer_id, category_id, title, description, duration, level
 
 -- Modules (with order_index and unique titles per course)
 INSERT INTO module (course_id, title, content_text, video_url, order_index) VALUES 
-  -- Course 1: Spring Boot
-  (1, 'Introduction', 'Welcome to Spring Boot!', 'https://example.com/spring-intro.mp4', 1),
-  (1, 'REST Controllers', 'Build your first API endpoint', 'https://example.com/spring-rest.mp4', 2),
-  (1, 'JPA & MySQL', 'Connect to a database', 'https://example.com/spring-jpa.mp4', 3),
-  (1, 'Security', 'Add JWT authentication', 'https://example.com/spring-security.mp4', 4),
+  -- Course 1: Construction Safety Basics
+  (1, 'Safety & PPE', 'Focuses on identifying "The Big Four" site hazards and mastering the correct use of protective gear to ensure regulatory compliance and worker safety.', 'uploads/construction_site_basics/video_00.mp4', 1),
+  (1, 'Communication', 'Teaches the essential "language" of the site, including interpreting safety signage, using universal hand signals for machinery, and maintaining professional radio etiquette.', 'uploads/construction_site_basics/video_00.mp4', 2),
+  (1, 'Tools & Housekeeping', 'Covers the safe operation of hand and power tools alongside "clean as you go" practices to prevent workplace accidents and organize materials efficiently.', 'uploads/construction_site_basics/video_00.mp4', 3),
+  (1, 'Blueprints & Documentation', 'Provides a foundation in reading technical plans and measurements while emphasizing the importance of accurate daily reporting for project tracking.', 'uploads/construction_site_basics/video_00.mp4', 4),
 
-  -- Course 2: Advanced React
+  -- Course 2: Construction Workflow & Risk Awareness (TODO)
   (2, 'Custom Hooks', 'Reusable logic with hooks', 'https://example.com/react-hooks.mp4', 1),
   (2, 'Performance Optimization', 'Memo, useCallback, lazy loading', 'https://example.com/react-perf.mp4', 2),
   (2, 'Testing', 'Jest and React Testing Library', 'https://example.com/react-testing.mp4', 3),
 
-  -- Course 3: Python Data Analysis
+  -- Course 3: Healthcare Environment Essentials (TODO)
   (3, 'Pandas Basics', 'DataFrames and Series', 'https://example.com/pandas-basics.mp4', 1),
   (3, 'Data Cleaning', 'Handle missing values and outliers', 'https://example.com/pandas-clean.mp4', 2),
   (3, 'Data Visualization', 'Plotting with Matplotlib', 'https://example.com/matplotlib.mp4', 3),
 
-  -- Course 4: Machine Learning
+  -- Course 4: Patient Care & Clinical Safety (TODO)
   (4, 'What is ML?', 'Supervised vs unsupervised', 'https://example.com/ml-intro.mp4', 1),
   (4, 'Train Your First Model', 'Linear regression with scikit-learn', 'https://example.com/ml-model.mp4', 2),
   (4, 'Model Evaluation', 'Accuracy, precision, recall', 'https://example.com/ml-eval.mp4', 3),

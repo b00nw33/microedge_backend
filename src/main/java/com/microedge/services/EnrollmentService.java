@@ -63,7 +63,7 @@ public class EnrollmentService {
                 .collect(Collectors.toList());
     }
 
-    public EnrollmentDto createEnrollment(CreateEnrollmentDto dto) {
+    public EnrollmentDto createEnrollment(Integer id) {
 
         // Obtain the user's identity from Spring Security
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -82,10 +82,10 @@ public class EnrollmentService {
         }
 
         // Validate course exists
-        validateCourseExists(dto.getCourseId());
+        validateCourseExists(id);
 
         // Check for duplicate enrollment
-        if (enrollmentRepository.existsByTraineeIdAndCourseId(dto.getTraineeId(), dto.getCourseId())) {
+        if (enrollmentRepository.existsByTraineeIdAndCourseId(existingUser.getId(), id)) {
             throw new IllegalArgumentException("Trainee already enrolled in this course");
         }
 
@@ -94,7 +94,7 @@ public class EnrollmentService {
 
         // ✅ CORRECT WAY: Create course reference with ID only
         Course courseRef = new Course();
-        courseRef.setId(dto.getCourseId());
+        courseRef.setId(id);
         enrollment.setCourse(courseRef);
 
         enrollment.setEnrollDate(LocalDateTime.now());
