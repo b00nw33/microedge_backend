@@ -138,7 +138,9 @@ src/
 ## Entity-Relationship Diagram (ERD)
 
 https://dbdocs.io/pss.mrteo/Microedge?view=relationships
-<iframe  allowfullscreen width="560" height="315" src="https://dbdocs.io/embed/c2bba99ef9ba0cd8f7b38a89eb4dcb6b/182cd95d43b4493783817a8d0fb400c1"> </iframe>
+
+![ERD](Microedge.png)
+
 
 ---
 
