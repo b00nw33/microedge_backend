@@ -164,7 +164,9 @@ https://dbdocs.io/pss.mrteo/Microedge?view=relationships
 | `/api/v1/courses/{courseid}`    | GET    | Get course by ID                |
 | `/api/v1/courses/{courseid}/modules`         | POST   | Create new module               |
 
-> Full API documentation can be generated using SpringDoc OpenAPI (Swagger)—just add the dependency if needed.
+> Full API documentation generated using SpringDoc OpenAPI (Swagger)
+
+![Swagger](openapi.png)
 
 ---
 
