@@ -1,16 +1,16 @@
 // src/main/java/com/microedge/controllers/UserControllerOld.java
 package com.microedge.controllers;
 
-import com.microedge.dto.UserDto;
-import com.microedge.exceptions.EmailAlreadyExistsException;
-import com.microedge.exceptions.ResourceNotFoundException;
-import com.microedge.services.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+// import com.microedge.dto.UserDto;
+// import com.microedge.exceptions.EmailAlreadyExistsException;
+// import com.microedge.exceptions.ResourceNotFoundException;
+// import com.microedge.services.UserService;
+// import org.springframework.beans.factory.annotation.Autowired;
+// import org.springframework.http.HttpStatus;
+// import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+// import java.util.List;
 
 @RestController
 @RequestMapping("/users")

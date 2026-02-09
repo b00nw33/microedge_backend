@@ -42,15 +42,15 @@ INSERT INTO course (trainer_id, category_id, title, description, duration, level
   (2, 2, 'Healthcare Environment Essentials', 'This course provides an overview of how healthcare facilities operate. Learners will be introduced to patient safety principles, hygiene practices, and professional conduct. The course explains basic roles, workflows, and communication within healthcare settings. It is suitable for new healthcare workers and support staff.', 180, 'BEGINNER', 'uploads/healthcare_essentials.jpg'),
   (2, 2, 'Patient Care & Clinical Safety', 'This course builds on foundational knowledge to strengthen patient care and safety practices. Learners will explore infection control, safe patient handling, and clinical risk awareness. The course also emphasizes teamwork and clear communication in care environments. It is designed for staff involved in patient-facing or clinical support roles.', 240, 'INTERMEDIATE', 'uploads/patientcare_clinicalsafety.png'),
 
-  -- Cloud
-  (3, 3, 'AWS Cloud Practitioner', 'Get certified in AWS fundamentals', 200, 'BEGINNER', 'uploads/comingsoon.png'),
-  (3, 3, 'Kubernetes for Developers', 'Deploy and scale containerized apps', 180, 'ADVANCED', 'uploads/comingsoon.png'),
+-- Construction
+  (2, 1, 'Construction Quality & Productivity', 'This course focuses on improving work quality and efficiency on construction sites. Learners will understand quality standards, proper material handling, and practical time management techniques. The course emphasizes reducing rework, identifying defects early, and maintaining productivity under real site conditions. It is suitable for workers seeking to improve performance and reliability on projects.', 140, 'INTERMEDIATE', 'uploads/5-1-construction-quality-and-productivity.jpg'),
 
-  -- Mobile
-  (5, 4, 'Flutter & Firebase', 'Build cross-platform mobile apps', 220, 'INTERMEDIATE', 'uploads/comingsoon.png'),
+  (3, 1, 'Construction Environmental & Site Responsibility', 'This course introduces environmental responsibility and public safety practices in construction environments. Learners will explore waste management, resource efficiency, and methods to reduce environmental impact on site. The course also highlights the importance of protecting surrounding communities and maintaining a responsible site presence. It is designed for workers operating on active or urban construction sites.', 120, 'BEGINNER', 'uploads/6-1-construction-environmental-and-site-responsibility.jpg'),
 
-  -- DevOps
-  (6, 5, 'CI/CD with GitHub Actions', 'Automate your deployment pipeline', 90, 'INTERMEDIATE', 'uploads/comingsoon.png');
+  -- Healthcare
+  (5, 2, 'Healthcare Infection Prevention', 'This course provides essential knowledge on preventing infection in healthcare settings. Learners will understand how infections spread, proper hand hygiene, correct use of PPE, and effective cleaning practices. The course emphasizes protecting patients, colleagues, and oneself in daily clinical work. It is suitable for healthcare workers in both clinical and support roles.', 130, 'BEGINNER', 'uploads/7-1-healthcare-infection-prevention.jpg'),
+
+  (6, 2, 'Healthcare Communication & Professionalism', 'This course develops core communication and professionalism skills for healthcare environments. Learners will practice patient interaction, teamwork, ethical behavior, and stress management. The course focuses on maintaining clear communication and professional conduct in fast-paced and high-pressure settings. It is ideal for healthcare staff aiming to improve service quality and teamwork.', 110, 'INTERMEDIATE', 'uploads/8-1-healthcare-communication-and-professionalism.jpg');
 
 -- Modules (with order_index and unique titles per course)
 INSERT INTO module (course_id, title, content_text, video_url, order_index) VALUES 
@@ -75,25 +75,29 @@ INSERT INTO module (course_id, title, content_text, video_url, order_index) VALU
   (4, 'Safe Patient Handling', 'Lifting and transfer methods and assistive devices.', 'https://example.com/ml-model.mp4', 2),
   (4, 'Clinical Risk Awareness', 'Identifying patient hazards and error prevention.', 'https://example.com/ml-eval.mp4', 3),
 
-  -- Course 5: AWS
-  (5, 'What is the Cloud?', 'Cloud vs on-premise', 'https://example.com/aws-cloud.mp4', 1),
-  (5, 'IAM & Security', 'Users, roles, and policies', 'https://example.com/aws-iam.mp4', 2),
-  (5, 'S3 & EC2', 'Storage and compute basics', 'https://example.com/aws-s3-ec2.mp4', 3),
+-- Course 5: Construction Quality & Productivity
+  (5, 'Quality Standards', 'Introduces common construction quality benchmarks, tolerances, and inspection points to reduce rework and meet project specifications.', 'uploads/construction_quality/video_01.mp4', 1),
+  (5, 'Material Handling', 'Covers proper storage, handling, and protection of materials to prevent damage, waste, and costly delays on site.', 'uploads/construction_quality/video_02.mp4', 2),
+  (5, 'Time & Task Management', 'Teaches micro-planning techniques, task sequencing, and daily goal setting to improve productivity and workflow efficiency.', 'uploads/construction_quality/video_03.mp4', 3),
+  (5, 'Defect Reporting', 'Explains how to identify, document, and communicate defects clearly to supervisors and quality teams for fast resolution.', 'uploads/construction_quality/video_04.mp4', 4),
 
-  -- Course 6: Kubernetes
-  (6, 'Pods & Deployments', 'Run containers at scale', 'https://example.com/k8s-pods.mp4', 1),
-  (6, 'Services & Ingress', 'Expose your app securely', 'https://example.com/k8s-networking.mp4', 2),
-  (6, 'Helm Charts', 'Package your applications', 'https://example.com/k8s-helm.mp4', 3),
+  -- Course 6: Construction Environmental & Site Responsibility
+  (6, 'Environmental Awareness', 'Builds awareness of environmental risks such as dust, noise, and runoff, and how workers can minimize impact on surrounding areas.', 'uploads/construction_environment/video_01.mp4', 1),
+  (6, 'Waste Management', 'Demonstrates proper segregation, recycling, and disposal of construction waste in compliance with site policies.', 'uploads/construction_environment/video_02.mp4', 2),
+  (6, 'Energy & Resource Use', 'Highlights efficient use of water, fuel, and electricity on site to reduce costs and environmental footprint.', 'uploads/construction_environment/video_03.mp4', 3),
+  (6, 'Community & Public Safety', 'Focuses on protecting pedestrians, nearby residents, and public infrastructure through safe site boundaries and practices.', 'uploads/construction_environment/video_04.mp4', 4),
 
-  -- Course 7: Flutter
-  (7, 'Getting Started', 'Set up Flutter and Firebase', 'https://example.com/flutter-setup.mp4', 1),
-  (7, 'Firestore Integration', 'Read and write data', 'https://example.com/flutter-firestore.mp4', 2),
-  (7, 'Authentication', 'Sign in with Google', 'https://example.com/flutter-auth.mp4', 3),
+  -- Course 7: Healthcare Infection Prevention
+  (7, 'Chain of Infection', 'Explains how infections spread in healthcare settings and identifies key breakpoints to prevent transmission.', 'uploads/healthcare_infection/video_01.mp4', 1),
+  (7, 'Hand Hygiene', 'Reinforces correct handwashing and sanitizing techniques using real-world clinical scenarios.', 'uploads/healthcare_infection/video_02.mp4', 2),
+  (7, 'PPE in Healthcare', 'Covers correct selection, donning, and removal of PPE to protect both patients and healthcare workers.', 'uploads/healthcare_infection/video_03.mp4', 3),
+  (7, 'Cleaning & Disinfection', 'Teaches safe cleaning routines for equipment and surfaces to maintain a hygienic clinical environment.', 'uploads/healthcare_infection/video_04.mp4', 4),
 
-  -- Course 8: CI/CD
-  (8, 'GitHub Actions Basics', 'Workflows and runners', 'https://example.com/gh-actions.mp4', 1),
-  (8, 'Deploy to AWS', 'Auto-deploy on push', 'https://example.com/gh-aws-deploy.mp4', 2),
-  (8, 'Testing Pipeline', 'Run tests on every PR', 'https://example.com/gh-tests.mp4', 3);
+  -- Course 8: Healthcare Communication & Professionalism
+  (8, 'Patient Communication', 'Develops clear, respectful communication skills for interacting with patients of diverse backgrounds and needs.', 'uploads/healthcare_communication/video_01.mp4', 1),
+  (8, 'Team Coordination', 'Emphasizes collaboration, role clarity, and handover practices within multidisciplinary healthcare teams.', 'uploads/healthcare_communication/video_02.mp4', 2),
+  (8, 'Ethics & Confidentiality', 'Introduces ethical responsibilities and patient data protection principles in everyday clinical work.', 'uploads/healthcare_communication/video_03.mp4', 3),
+  (8, 'Stress & Professional Conduct', 'Provides techniques for managing stress, maintaining professionalism, and responding calmly under pressure.', 'uploads/healthcare_communication/video_04.mp4', 4);
 
 -- Enrollments (mix of completed/in-progress)
 INSERT INTO trainee_course (users_id, course_id, complete_status, complete_date) VALUES 
