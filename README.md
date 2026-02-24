@@ -15,7 +15,7 @@ This repository contains the backend service for my capstone project: a robust, 
 - **Authentication**: Spring Security + JWT  
 - **Validation**: Bean Validation (Jakarta Validation)  
 - **Dev Tools**: Spring Boot DevTools, Lombok  
-- **Testing**: JUnit 5, Mockito, Testcontainers  
+- **Testing**: Postman  
 - **Deployment**: Docker + Docker Compose  
 
 ---
@@ -84,17 +84,6 @@ This repository contains the backend service for my capstone project: a robust, 
    mvn spring-boot:run
    ```
    The app will start on `http://localhost:8888`.
-
----
-
-## 🧪 Testing
-
-Run unit and integration tests:
-```bash
-mvn test
-```
-
-> **Note**: Integration tests use Testcontainers to spin up a temporary MariaDB instance—no local DB required for testing.
 
 ---
 
@@ -194,5 +183,6 @@ For collaboration or questions:
 > © 2026 Boon Wee. All rights reserved.  
 > Built with Spring Boot, MariaDB, and passion 💻✨
 
-## Frontend repo
-https://github.com/alvingan-cmyk/FSD07-team1-capstone
+## Others
+[Boilerplates and Wireframes](https://fsd07.pages.dev)
+[Frontend repo](https://github.com/alvingan-cmyk/FSD07-team1-capstone)
